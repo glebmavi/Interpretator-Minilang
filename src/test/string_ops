@@ -1,0 +1,12 @@
+a = "Hello";
+b = ", ";
+c = "world!";
+
+helo = a + b + c;
+print(helo);
+
+helo = a + b + "Gleb!";
+print(helo);
+
+helo = (helo + " ")* 3;
+print(helo);

@@ -1,0 +1,10 @@
+a = 246;
+b = 48;
+c = 0;
+while (b) {
+    c = b;
+    b = a % b;
+    a = c;
+}
+print(a);
+
