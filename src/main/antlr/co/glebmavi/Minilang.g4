@@ -17,7 +17,8 @@ printStatement : 'print' '(' expression ')' ;
 block       : '{' statement+ '}' ;
 
 expression
-    : expression op=('*'|'/') expression
+    : '-' expression
+    | expression op=('*'|'/') expression
     | expression op=('+'|'-') expression
     | expression '%' expression
     | expression compOp expression

@@ -72,6 +72,18 @@ class MinilangEvalVisitor : MinilangBaseVisitor<Value>() {
                     }
                 }
             }
+            // negative values case
+            2 -> {
+                if (ctx.getChild(0).text == "-") {
+                    val value = visit(ctx.getChild(1))
+                    return when (value) {
+                        is strVal -> throw RuntimeException("A string can't be negative")
+                        is doubleVal -> doubleVal(-value.asNumber())
+                        is intVal -> intVal(-value.asNumber().toInt())
+                        else -> throw RuntimeException("Unknown type: $value")
+                    }
+                }
+            }
             3 -> {
                 // Либо скобки, либо бинарное выражение.
                 if (ctx.getChild(0).text == "(" && ctx.getChild(2).text == ")") {
@@ -116,7 +128,7 @@ class MinilangEvalVisitor : MinilangBaseVisitor<Value>() {
                     strVal(left.asString().repeat(right.value))
                 else if (right is strVal && left is intVal)
                     strVal(right.asString().repeat(left.value))
-                else if (left is strVal || right is strVal)
+                else if (left is strVal && right is strVal)
                     throw RuntimeException("Умножение не поддерживается для строк")
                 else if (left is doubleVal || right is doubleVal)
                     doubleVal(left.asNumber() * right.asNumber())
